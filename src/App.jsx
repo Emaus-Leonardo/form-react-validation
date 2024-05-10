@@ -7,12 +7,11 @@ function App() {
   const [values, setValues] = useState({
     username: "",
     email: "",
-    birthday: "",
-    password: "",
-    confirmPassword: "",
+    assunto: "",
+    mensagem: "",
   });
 
-  const formRef = useRef(null); // Referência para o formulário
+  const formRef = useRef(null);
 
   const input = [
     {
@@ -21,7 +20,8 @@ function App() {
       type: "text",
       placeholder: "Username",
       label: "Username",
-      required: true,
+      riquired: true,
+
     },
     {
       id: 2,
@@ -29,55 +29,51 @@ function App() {
       type: "email",
       placeholder: "Email",
       label: "Email",
-      required: true,
-    },
-    {
-      id: 3,
-      name: "birthday",
-      type: "date",
-      placeholder: "Birthday",
-      label: "Birthday",
-      required: true,
-    },
-    {
-      id: 4,
-      name: "password",
-      type: "password",
-      placeholder: "Password",
-      label: "Password",
-      required: true,
+      riquired: true,
     },
     {
       id: 5,
-      name: "confirmPassword",
-      type: "password",
-      placeholder: "Confirm Password",
-      label: "Confirm Password",
-      required: true,
+      name: "assunto",
+      type: "text",
+      placeholder: "Digite o Assunto",
+      label: "Digite o Assunto",
+      riquired: true,
     },
   ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Verifica se todos os estão preenchidos
+    const requiredFields = ["username", "email", "assunto", "mensagem"];
+    const missingFields = requiredFields.filter((field) => !values[field]);
+    if (missingFields.length > 0) {
+      toast.error(`Por favor, preencha os campos: ${missingFields.join(", ")}`);
+      return;
+    }
+
     const data = new FormData(e.target);
     console.log(Object.fromEntries(data.entries()));
-  
-    // Resetando o formulário
+
+    // Reset dos campos
     formRef.current.reset();
 
     setValues({
       username: "",
       email: "",
-      birthday: "",
-      password: "",
-      confirmPassword: "",
+      assunto: "",
+      mensagem: "",
     });
-  
+
     toast.success("Formulário enviado com sucesso!");
   };
-  
+
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    if (e.target.name === "textareaValue") {
+      setValues({ ...values, textareaValue: e.target.value });
+    } else {
+      setValues({ ...values, [e.target.name]: e.target.value });
+    }
   };
 
   return (
@@ -88,11 +84,11 @@ function App() {
         className="flex flex-col bg-white rounded-xl p-5 shadow-xl"
       >
         <div className="flex  gap-1 ">
-          <div className="rounded-full w-2 h-2 bg-green-500"></div>
           <div className="rounded-full w-2 h-2 bg-red-500"></div>
           <div className="rounded-full w-2 h-2 bg-yellow-400"></div>
+          <div className="rounded-full w-2 h-2 bg-green-500"></div>
         </div>
-        <h1 className="font-bold flex justify-center text-[22px]">
+        <h1 className="font-bold mb-5 flex justify-center text-[22px]">
           Form Register
         </h1>
         <div>
@@ -106,7 +102,20 @@ function App() {
             />
           ))}
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 transition-all flex justify-center items-center w-full text-white font-bold py-2 px-4 rounded mt-4 self-center">
+
+        <label htmlFor="textareaValue" className="block  mb-1">
+          Mensagem
+        </label>
+        <textarea
+          id="mensagem"
+          name="mensagem"
+          value={values.mensagem}
+          onChange={handleChange}
+          placeholder="Digite sua mensagem..."
+          className="w-full outline-none bg-fundo rounded p-2 "
+        />
+
+        <button className="bg-blue-500 hover:bg-blue-700 transition-all flex justify-center items-center w-full text-white font-bold py-2 px-4 rounded mt-10 self-center">
           Submit
         </button>
       </form>
