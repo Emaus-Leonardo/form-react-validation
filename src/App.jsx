@@ -7,7 +7,7 @@ function App() {
     email: "",
     birthday: "",
     password: "",
-    confirmPassword: "", 
+    confirmPassword: "",
   });
 
   const input = [
@@ -43,8 +43,8 @@ function App() {
       id: 5,
       name: "confirmPassword",
       type: "password",
-      placeholder: "Confirm Password", 
-      label: "Confirm Password", 
+      placeholder: "Confirm Password",
+      label: "Confirm Password",
     },
   ];
 
@@ -54,7 +54,7 @@ function App() {
     console.log(Object.fromEntries(data.entries()));
   };
 
-  const onChange = (e) => {
+  const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
@@ -65,16 +65,17 @@ function App() {
         className="flex flex-col items-center bg-white rounded-xl p-5 shadow-xl "
       >
         <div className="">
-          {input.map((input) => (
+          {input.map((inputField) => (
             <FormInput
-              key={input.id}
-              {...input}
-              value={values[input.name]}
-              onChange={onChange} 
+              key={inputField.id}
+              name={inputField.name}
+              value={values[inputField.name]}
+              onChange={handleChange}
+              {...inputField}
             />
           ))}
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+        <button className="bg-blue-500 hover:bg-blue-700 transition-all text-white font-bold py-2 px-4 rounded mt-4">
           Submit
         </button>
       </form>

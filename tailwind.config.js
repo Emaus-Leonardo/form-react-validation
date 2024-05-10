@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        input: "#f1f5f9"
+        input: "#f1f5f9",
+        fundo: "#F5F5F5"
       }
     },
   },
